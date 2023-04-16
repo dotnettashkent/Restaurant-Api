@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Restaurant.Api.Extensions;
 using Restaurant.Data.Contexts;
 using Restaurant.Service.Mappers;
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     .GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddCustomServices();
 
 var app = builder.Build();
 
