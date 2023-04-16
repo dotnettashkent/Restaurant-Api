@@ -1,33 +1,54 @@
-﻿using Restaurant.Data.IRepositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Restaurant.Data.Contexts;
+using Restaurant.Data.IRepositories;
 using Restaurant.Domain.Entities;
 
 namespace Restaurant.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public Task<bool> DeleteAsync(long id)
+        protected readonly AppDbContext appDbContext;
+        protected readonly DbSet<User> dbSet;
+
+        public UserRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            this.appDbContext = appDbContext;
+            this.dbSet = appDbContext.Set<User>();
         }
 
-        public Task<IEnumerable<User>> GetAllAsync()
+        public async Task<bool> DeleteAsync(long id)
         {
-            throw new NotImplementedException();
+            var user = dbSet.FindAsync(id);
+            if (user == null)
+                return false;
+            dbSet.Remove(await user);
+            return true;
         }
 
-        public Task<User> GetByIdAsync(long id)
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await dbSet.ToListAsync();
         }
 
-        public Task<User> InsertAsync(User user)
+        public async Task<User> GetByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            return await dbSet.FindAsync(id);
         }
 
-        public Task<User> UpdateAsync(User user)
+        public async Task<User> InsertAsync(User user)
         {
-            throw new NotImplementedException();
+            var entry = await dbSet.AddAsync(user);
+            return entry.Entity;
+        }
+
+        public async Task SaveChangesAsync()
+            => await appDbContext.SaveChangesAsync();
+
+        public async Task<User> UpdateAsync(User user)
+        {
+            var first = dbSet.Update(user);
+            await appDbContext.SaveChangesAsync();
+            return first.Entity;
         }
     }
 }
