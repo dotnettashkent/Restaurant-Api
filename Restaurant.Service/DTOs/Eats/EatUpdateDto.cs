@@ -2,7 +2,7 @@
 
 namespace Restaurant.Service.DTOs.Eats
 {
-    public class EatCreationDto
+    public class EatUpdateDto
     {
         public string Name { get; set; }
         public string Description { get; set; }
