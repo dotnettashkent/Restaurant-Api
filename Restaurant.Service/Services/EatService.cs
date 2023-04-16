@@ -54,7 +54,7 @@ namespace Restaurant.Service.Services
                 var eats = await eatRepository.GetAllAsync();
                 return mapper.Map<IEnumerable<EatDto>>(eats);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new RestaurantException(500, "Failed to retrieve eats");
             }
