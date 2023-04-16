@@ -9,5 +9,6 @@ namespace Restaurant.Data.IRepositories
         Task<bool> DeleteAsync(long id);
         Task<User> GetByIdAsync(long id);
         Task<IEnumerable<User>> GetAllAsync();
+        Task SaveChangesAsync();
     }
 }
