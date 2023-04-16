@@ -12,7 +12,7 @@ namespace Restaurant.Api.Controllers
 
         public UsersController(IUserService userService)
         {
-            userService = userService;
+            this.userService = userService;
         }
 
         [HttpGet]
